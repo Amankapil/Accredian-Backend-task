@@ -27,7 +27,7 @@ app.post('/api', async (req, res) => {
   const { referrerName, referrerEmail, refereeName, refereeEmail, course } =
     req.body
 
-  console.log(req.body)
+  // console.log(req.body)
   if (
     !referrerName ||
     !referrerEmail ||
@@ -35,7 +35,7 @@ app.post('/api', async (req, res) => {
     !refereeEmail ||
     !course
   ) {
-    console.log('data')
+    // console.log('data')
     return res.status(400).json({ error: 'All fields are required' })
   }
 
@@ -56,6 +56,9 @@ app.post('/api', async (req, res) => {
       }
       console.log('mail sent success')
       // return res.send(200)
+      res
+        .status(200)
+        .json({ message: 'Referral submitted successfully', referral })
       res.status(200).send({ success: 'mail sent success' })
     })
   } catch (error) {
