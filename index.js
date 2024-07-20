@@ -8,11 +8,17 @@ const prisma = new PrismaClient()
 const app = express()
 const port = 5000
 const cors = require('cors')
-app.use(
-  cors({
-    origin: 'https://accredian-frontend-task-smx9.vercel.app/' // replace with your frontend domain
-  })
-)
+
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://accredian-frontend-task-smx9.vercel.app/'
+  ], // Replace with your frontend URLs
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}
+
+app.use(cors(corsOptions))
 
 app.use(bodyParser.json())
 
