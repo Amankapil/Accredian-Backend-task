@@ -68,10 +68,8 @@ app.post('/api', async (req, res) => {
         console.error('Error sending email:', error)
         return res.status(500).json({ error: 'Error sending email' })
       }
-      console.log('Mail sent:', info.response)
-      res
-        .status(200)
-        .json({ message: 'Referral submitted successfully', referral })
+      // console.log('Mail sent:', info.response)
+      res.status(200).json({ message: 'Referral submitted successfully' })
     })
   } catch (error) {
     console.error('Error creating referral:', error)
