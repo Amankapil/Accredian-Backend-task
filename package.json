@@ -18,5 +18,8 @@
     "mysql2": "^3.10.3",
     "nodemailer": "^6.9.14",
     "prisma": "^5.17.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17"
   }
 }
