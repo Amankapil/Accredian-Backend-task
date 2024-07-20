@@ -40,10 +40,9 @@ app.post('/api', async (req, res) => {
   }
 
   try {
-    //     const referral = await prisma.referral.create({
-    //       data: { referrerName, referrerEmail, refereeName, refereeEmail, course }
-    //     })
-
+    const referral = await prisma.referral.create({
+      data: { referrerName, referrerEmail, refereeName, refereeEmail, course }
+    })
     const mailOptions = {
       from: referrerEmail,
       to: refereeEmail,
