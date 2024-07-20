@@ -57,7 +57,7 @@ app.post('/api', async (req, res) => {
     })
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: 'amankapil60@gmail.com',
       to: refereeEmail,
       subject: 'Course Referral',
       text: `Hello ${refereeName},\n\n${referrerName} has referred you to the course: ${course}.`
