@@ -2,10 +2,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
 datasource db {
   provider = "mysql"
-  url      = "mysql://refer_user:password123@localhost:3306/refer_and_earn"
+  url      = env("DATABASE_URL")
 }
+
 
 model Referral {
   id         Int      @id @default(autoincrement())

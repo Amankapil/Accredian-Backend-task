@@ -2,21 +2,25 @@ const express = require('express')
 const { PrismaClient } = require('@prisma/client')
 const bodyParser = require('body-parser')
 const nodemailer = require('nodemailer')
-// require('dotenv').config()
+require('dotenv').config()
 
 const prisma = new PrismaClient()
 const app = express()
 const port = 5000
 const cors = require('cors')
-app.use(cors())
+app.use(
+  cors({
+    origin: 'https://accredian-frontend-task-smx9.vercel.app/' // replace with your frontend domain
+  })
+)
 
 app.use(bodyParser.json())
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'amankapil60@gmail.com',
-    pass: 'wvfz zara xyre zclz'
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 })
 
@@ -27,7 +31,6 @@ app.post('/api', async (req, res) => {
   const { referrerName, referrerEmail, refereeName, refereeEmail, course } =
     req.body
 
-  // console.log(req.body)
   if (
     !referrerName ||
     !referrerEmail ||
@@ -35,7 +38,6 @@ app.post('/api', async (req, res) => {
     !refereeEmail ||
     !course
   ) {
-    // console.log('data')
     return res.status(400).json({ error: 'All fields are required' })
   }
 
@@ -43,6 +45,7 @@ app.post('/api', async (req, res) => {
     const referral = await prisma.referral.create({
       data: { referrerName, referrerEmail, refereeName, refereeEmail, course }
     })
+
     const mailOptions = {
       from: referrerEmail,
       to: refereeEmail,
@@ -52,17 +55,17 @@ app.post('/api', async (req, res) => {
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
+        console.error('Error sending email:', error)
         return res.status(500).json({ error: 'Error sending email' })
       }
-      console.log('mail sent success')
-      // return res.send(200)
+      console.log('Mail sent:', info.response)
       res
         .status(200)
         .json({ message: 'Referral submitted successfully', referral })
-      res.status(200).send({ success: 'mail sent success' })
     })
   } catch (error) {
-    res.status(350).send({ error: 'Error creating referral' })
+    console.error('Error creating referral:', error)
+    res.status(500).json({ error: 'Error creating referral' })
   }
 })
 
