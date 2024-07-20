@@ -34,6 +34,8 @@ app.use(bodyParser.json())
 //   }
 // })
 
+// https://accredian-backend-task-dv4x.onrender.com/api
+
 app.get('/api/ad', async (req, res) => {
   res.send('flex')
 })
