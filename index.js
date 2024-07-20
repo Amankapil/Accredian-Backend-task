@@ -9,15 +9,19 @@ const app = express()
 const port = 5000
 const cors = require('cors')
 
+// const corsOptions = {
+//   origin: [
+//     'http://localhost:3000',
+//     'https://accredian-frontend-task-smx9.vercel.app/'
+//   ], // Replace with your frontend URLs
+//   methods: ['GET', 'POST'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'https://accredian-frontend-task-smx9.vercel.app/'
-  ], // Replace with your frontend URLs
+  origin: '*', // Allow all origins
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }
-
 app.use(cors(corsOptions))
 
 app.use(bodyParser.json())
