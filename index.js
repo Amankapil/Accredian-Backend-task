@@ -26,15 +26,13 @@ app.use(cors(corsOptions))
 
 app.use(bodyParser.json())
 
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS
-//   }
-// })
-
-// https://accredian-backend-task-dv4x.onrender.com/api
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'amankapil60@gmail.com',
+    pass: 'wvfz zara xyre zclz'
+  }
+})
 
 app.get('/api/ad', async (req, res) => {
   res.send('flex')
@@ -54,27 +52,27 @@ app.post('/api', async (req, res) => {
   }
 
   try {
-    const referral = await prisma.referral.create({
-      data: { referrerName, referrerEmail, refereeName, refereeEmail, course }
-    })
-
-    // const mailOptions = {
-    //   from: 'amankapil60@gmail.com',
-    //   to: refereeEmail,
-    //   subject: 'Course Referral',
-    //   text: `Hello ${refereeName},\n\n${referrerName} has referred you to the course: ${course}.`
-    // }
-
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //   if (error) {
-    //     console.error('Error sending email:', error)
-    //     return res.status(500).json({ error: 'Error sending email' })
-    //   }
-    //   console.log('Mail sent:', info.response)
-    res
-      .status(200)
-      .json({ message: 'Referral submitted successfully', referral })
+    // const referral = await prisma.referral.create({
+    //   data: { referrerName, referrerEmail, refereeName, refereeEmail, course }
     // })
+
+    const mailOptions = {
+      from: 'amankapil60@gmail.com',
+      to: refereeEmail,
+      subject: 'Course Referral',
+      text: `Hello ${refereeName},\n\n${referrerName} has referred you to the course: ${course}.`
+    }
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error)
+        return res.status(500).json({ error: 'Error sending email' })
+      }
+      console.log('Mail sent:', info.response)
+      res
+        .status(200)
+        .json({ message: 'Referral submitted successfully', referral })
+    })
   } catch (error) {
     console.error('Error creating referral:', error)
     res.status(500).json({ error: 'Error creating referral' })
